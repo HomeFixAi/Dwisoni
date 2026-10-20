@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Deutsch Grammatik Test Bot"
+description = "A private admin dashboard for a German grammar study group. Configure daily Telegram quizzes, topics and participation rules, then track question-level answers, member results, rankings and quiz history."
+version = "1.0.0"
+id = "artifacts/deutsch-grammatik-bot"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21708
+
+[services.development]
+run = "pnpm --filter @workspace/deutsch-grammatik-bot run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/deutsch-grammatik-bot", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/deutsch-grammatik-bot/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21708"
+BASE_PATH = "/"
